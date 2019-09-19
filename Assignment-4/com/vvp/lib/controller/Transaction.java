@@ -6,6 +6,7 @@ public class Transaction{
 	public String issueBook(int bookId,int userId,String userType)
 	{
 		String userTypeName="student";
+		String userTypeName1="staff";
 		if(userType.equals(userTypeName))
 		{
 			int i,j;
@@ -19,55 +20,91 @@ public class Transaction{
 					if(hardMedia[j].bookId==bookId)
 						break;
 				}
-				if(i==student.length)
-					return "Invalid Student";
-				if(j==hardMedia.length)
-					return "Invalid BookId";
-			
-				if(student[i].balance < 1)
-					return "Insufficent Balance";
+				try{
+					if(i==student.length)
+						throw new UserNotFoundException();
+						//return "Invalid Student";
+					if(j==hardMedia.length)
+						throw new BookNotFoundException();
+						//return "Invalid BookId";
+					
+					if(student[i].balance < 1)
+						throw new InsufficentUserBalanceException();
+						//return "Insufficent Balance";
 
-				if(hardMedia[j].availibity < 1)
-					return "Book is not available";
-
-				student[i].balance--;
-				hardMedia[j].availibity--;			
-	
-			return "Issuebook is successfully done by Student.";		
-		}
-		
-		userTypeName="staff";
-		
-		if(userType.equals(userTypeName))
+					if(hardMedia[j].availibity < 1)
+						throw new InsufficentBookBalanceException();
+						//return "Book is not available";
+					
+					student[i].balance--;
+					hardMedia[j].availibity--;			
+				
+					return "Issuebook is successfully done by Student.";		
+				}catch(UserNotFoundException uf){
+					System.out.println(uf.getMessage());
+				}
+				catch(BookNotFoundException bf){
+					System.out.println(bf.getMessage());
+				}
+				catch(InsufficentUserBalanceException iub){
+					System.out.println(iub.getMessage());
+				}
+				catch(InsufficentBookBalanceException ibb){
+					System.out.println(ibb.getMessage());
+				}
+				
+				
+		}		
+		else if(userType.equals(userTypeName))
 		{
 		
 			int i,j;
-				for(i=0; i <= staff.length; i++)
+				for(i=0; i < staff.length; i++)
 				{
 					if(staff[i].userid == userId)
 						break;
 				}
 		
-				for(j = 0; j <= hardMedia.length; j++)
+				for(j = 0; j < hardMedia.length; j++)
 				{	
 					if(hardMedia[j].bookId == bookId)
 						break;        
 				}
-				if(i == staff.length)
-					return "Invalid StaffId";
-				if(j == hardMedia.length)
-					return "Invalid BookId";
-		
-				if(staff[i].balance < 1)
-					return "Insufficient balance to issue book"; 
-		
-				if(hardMedia[j].availibity < 1)
-					return "Book is not available";
+				try{
+					if(i == staff.length)
+						throw new UserNotFoundException();
+						//return "Invalid StaffId";
+					if(j == hardMedia.length)
+						throw new BookNotFoundException();
+						//return "Invalid BookId";
 				
-				staff[i].balance--;
-				hardMedia[j].availibity--;
+					if(staff[i].balance < 1)
+						throw new InsufficentUserBalanceException();
+						//return "Insufficient balance to issue book"; 
 			
-			return "Issuebook is successfully done by Staff.";
+					if(hardMedia[j].availibity < 1)
+						throw new InsufficentBookBalanceException();
+						//return "Book is not available";
+					
+					staff[i].balance--;
+					hardMedia[j].availibity--;
+			
+					return "Issuebook is successfully done by Staff.";
+				}catch(UserNotFoundException uf){
+					System.out.println(uf.getMessage());
+				}
+				catch(BookNotFoundException bf){
+					System.out.println(bf.getMessage());
+				}
+				catch(InsufficentUserBalanceException iub){
+					System.out.println(iub.getMessage());
+				}
+				catch(InsufficentBookBalanceException ibb){
+					System.out.println(ibb.getMessage());
+				}
+		}
+		else{
+			return "Invalid User Name \nName Should be Student or Staff";
 		}
 		return "Error in Code!!";
 	}
@@ -76,6 +113,7 @@ public class Transaction{
 	public String returnBook(int bookId,int userId,String userType)
 	{
 		String userTypeName="student";
+		String userTypeName1="staff";
 		
 		if(userType.equals(userTypeName))
 		{
@@ -90,53 +128,88 @@ public class Transaction{
 					if(hardMedia[j].bookId==bookId)
 						break;
 				}
-				if(i==student.length)
-					return "Invalid Student";
-				if(j==hardMedia.length)
-					return "Invalid BookId";
+				try{
+					if(i==student.length)
+						throw new UserNotFoundException();
+						//return "Invalid Student";
+					if(j==hardMedia.length)
+						throw new BookNotFoundException();
+						//return "Invalid BookId";
 			
-				if(student[i].balance == 4)
-					return "Invalid operation";
-	
-				if(hardMedia[j].availibity == 1)
-					return "Invalid Book Operation";
+					if(student[i].balance == 4)
+						throw new InsufficentUserBalanceException();
+						//return "Invalid operation";
+		
+					if(hardMedia[j].availibity == 1)
+						throw new InsufficentBookBalanceException();
+						//return "Invalid Book Operation";
 
-				student[i].balance++;
-				hardMedia[j].availibity++;
+					student[i].balance++;
+					hardMedia[j].availibity++;
 			
-			return "Returnbook is successfully done by Student.";
-		}
-		
-		userTypeName="staff";
-		
-		if(userType.equals(userTypeName))
+					return "Returnbook is successfully done by Student.";
+				}catch(UserNotFoundException uf){
+					System.out.println(uf.getMessage());
+				}
+				catch(BookNotFoundException bf){
+					System.out.println(bf.getMessage());
+				}
+				catch(InsufficentUserBalanceException iub){
+					System.out.println(iub.getMessage());
+				}
+				catch(InsufficentBookBalanceException ibb){
+					System.out.println(ibb.getMessage());
+				}
+		}		
+		else if(userType.equals(userTypeName1))
 		{
 			int i,j;
-				for(i=0; i <= staff.length; i++){
-					if(staff[i].userid == userId)
-						break;	
+				for(i=0; i < staff.length; i++){
+					if(staff[i].userid == userId)						
+						break;
+					
 				}
-				for(j = 0; j <= hardMedia.length; j++){	
+				for(j = 0; j < hardMedia.length; j++){	
 					if(hardMedia[j].bookId == bookId)
 						break;        
 				}	
+				try{
+					if(i == staff.length)
+						throw new UserNotFoundException();
+						//return "Invalid StaffId";				
+					if(j == hardMedia.length)
+						throw new BookNotFoundException();
+						//return "Invalid BookId";
 				
-				if(i == staff.length)
-					return "Invalid StaffId";				
-				if(j == hardMedia.length)
-					return "Invalid BookId";
 				
+					if(staff[i].balance < 1)
+						throw new InsufficentUserBalanceException();
+						//return "Insufficient balance to issue book"; 	
 				
-				if(staff[i].balance < 1)
-					return "Insufficient balance to issue book"; 	
-				
-				if(hardMedia[j].availibity < 1)
-					return "Book is not available";
+					if(hardMedia[j].availibity < 1)
+						throw new InsufficentBookBalanceException();
+						//return "Book is not available";
 			
-				staff[i].balance++;
-				hardMedia[j].availibity++;
+					staff[i].balance++;
+					hardMedia[j].availibity++;
 				
-			return "Returnbook is successfully done by Staff.";
+					return "Returnbook is successfully done by Staff.";
+				}
+				catch(UserNotFoundException uf){
+					System.out.println(uf.getMessage());
+				}
+				catch(BookNotFoundException bf){
+					System.out.println(bf.getMessage());
+				}
+				catch(InsufficentUserBalanceException iub){
+					System.out.println(iub.getMessage());
+				}
+				catch(InsufficentBookBalanceException ibb){
+					System.out.println(ibb.getMessage());
+				}
+		}
+		else{
+			return "Invalid User Name \nName Should be Student or Staff";
 		}
 		return "Error in Code!!";
 	}
@@ -145,6 +218,7 @@ public class Transaction{
 	public int checkBalance(int userId,String userType) {
 		
 		String userTypeName="student";
+		String userTypeName1="staff";
 		
 		if(userType.equals(userTypeName))
 		{
